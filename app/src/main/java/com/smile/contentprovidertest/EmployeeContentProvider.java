@@ -17,33 +17,34 @@ import java.util.HashMap;
 
 public class EmployeeContentProvider extends ContentProvider {
 
-    static final String providerName = new String("com.smile.provider.SmileCompany");
-    static final String URL = new String("content://"+providerName+"/employees");
-    static final Uri contentURI = Uri.parse(URL);
+    public static final String providerName = new String("com.smile.provider.SmileCompany");
+    public static final String providerURL = new String("content://"+providerName+"/employees");
+    public static final Uri contentURI = Uri.parse(providerURL);
 
-    static final String employeeId = new String("_id");
-    static final String employeeName = new String("name");
-    static final String employeePhone = new String("phone");
+    public static final String employeeId = new String("_id");
+    public static final String employeeName = new String("name");
+    public static final String employeePhone = new String("phone");
 
-    private static HashMap<String,String> employeesMap;
+    private final static int EMPLOYEES = 1;
+    private final static int EMPLOYEE_ID = 2;
 
-    final static int EMPLOYEES = 1;
-    final static int EMPLOYEE_ID = 2;
-
-    final static UriMatcher uriMatcher;
+    private final static UriMatcher uriMatcher;
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(providerName,"employees",EMPLOYEES);
         uriMatcher.addURI(providerName,"employees/#",EMPLOYEE_ID);
     }
+
+    private static HashMap<String,String> employeesMap;
+
     /**
      * Database specific constant declarations
      */
     private SQLiteDatabase employeeDb;
-    static final String databaseName = "SmileCompany";
-    static final String tableName = "employees";
-    static final int databaseVersion = 1;
-    static final String CREATE_DB_TABLE =
+    private static final String databaseName = "SmileCompany";
+    private static final String tableName = "employees";
+    private static final int databaseVersion = 1;
+    private static final String CREATE_DB_TABLE =
             " CREATE TABLE " + tableName +
                     " (_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     " name TEXT NOT NULL, " +
@@ -101,14 +102,14 @@ public class EmployeeContentProvider extends ContentProvider {
             case EMPLOYEE_ID:
                 String id = uri.getPathSegments().get(1);
                 count = employeeDb.delete( tableName,employeeId +  " = " + id +
-                        (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);
+                        (!TextUtils.isEmpty(selection) ? " AND (" + selection + ")" : ""), selectionArgs);
                 break;
 
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
 
-        getContext().getContentResolver().notifyChange(uri, null);
+        // getContext().getContentResolver().notifyChange(uri, null);
 
         return count;
     }
@@ -145,7 +146,7 @@ public class EmployeeContentProvider extends ContentProvider {
         if (rowId > 0) {
             // successfully
             Uri _uri = ContentUris.withAppendedId(contentURI, rowId);
-            getContext().getContentResolver().notifyChange(_uri, null);
+            // getContext().getContentResolver().notifyChange(_uri, null);
             return _uri;
         } else {
             throw new SQLException("Failed to add a record into " + uri);
@@ -184,7 +185,7 @@ public class EmployeeContentProvider extends ContentProvider {
         /**
          * register to watch a content URI for changes
          */
-        c.setNotificationUri(getContext().getContentResolver(), uri);
+        // c.setNotificationUri(getContext().getContentResolver(), uri);
 
         return c;
     }
@@ -201,14 +202,15 @@ public class EmployeeContentProvider extends ContentProvider {
 
             case EMPLOYEE_ID:
                 count = employeeDb.update(tableName, values,employeeId + " = " + uri.getPathSegments().get(1) +
-                        (!TextUtils.isEmpty(selection) ? " AND (" +selection + ')' : ""), selectionArgs);
+                        (!TextUtils.isEmpty(selection) ? " AND (" +selection + ")" : ""), selectionArgs);
                 break;
 
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri );
         }
-        getContext().getContentResolver().notifyChange(uri, null);
+        // getContext().getContentResolver().notifyChange(uri, null);
 
         return count;
     }
+
 }

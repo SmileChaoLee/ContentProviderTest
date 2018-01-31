@@ -46,16 +46,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickAddName(View view) {
         // Add a new employee record
-        ContentValues values = new ContentValues();
+        // String URL = EmployeeContentProvider.providerURL;
+        // Uri URI = Uri.parse(URL);
 
+        ContentValues values = new ContentValues();
         values.put(EmployeeContentProvider.employeeName,
                 ((EditText)findViewById(R.id.editText1)).getText().toString());
 
         values.put(EmployeeContentProvider.employeePhone,
                 ((EditText)findViewById(R.id.editText2)).getText().toString());
 
-        Uri uri = getContentResolver().insert(
-                EmployeeContentProvider.contentURI, values);
+        Uri uri = getContentResolver().insert(EmployeeContentProvider.contentURI, values);
 
         Toast.makeText(getBaseContext(),
                 uri.toString(), Toast.LENGTH_LONG).show();
@@ -65,11 +66,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Retrieve  employee records
         // String URL = "content://com.smile.provider.SmileCompany/employees";
-        String URL = EmployeeContentProvider.URL;
+        // String URL = EmployeeContentProvider.providerURL();
+        // Uri URI = Uri.parse(URL);
 
-        Uri employees = Uri.parse(URL);
-        Cursor c = getContentResolver().query(employees, null, null, null, "name");
-
+        String selection = EmployeeContentProvider.employeeId + " = ? ";
+        String[] selectionArgs = {"2"};
+        Cursor c = getContentResolver().query(EmployeeContentProvider.contentURI, null, selection, selectionArgs, "name");
         if (c.moveToFirst()) {
             do{
                 Toast.makeText(this,
