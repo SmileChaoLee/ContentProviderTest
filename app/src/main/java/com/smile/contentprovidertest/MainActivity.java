@@ -69,8 +69,11 @@ public class MainActivity extends AppCompatActivity {
         // String URL = EmployeeContentProvider.providerURL();
         // Uri URI = Uri.parse(URL);
 
-        String selection = EmployeeContentProvider.employeeId + " = ? ";
-        String[] selectionArgs = {"2"};
+        // String selection = EmployeeContentProvider.employeeId + " = ? ";
+        // String[] selectionArgs = {"2"};
+
+        String selection = null;
+        String[] selectionArgs = null;
         Cursor c = getContentResolver().query(EmployeeContentProvider.contentURI, null, selection, selectionArgs, "name");
         if (c.moveToFirst()) {
             do{
