@@ -35,7 +35,7 @@ public class EmployeeContentProvider extends ContentProvider {
         uriMatcher.addURI(providerName,"employees/#",EMPLOYEE_ID);
     }
 
-    private static HashMap<String,String> employeesMap;
+    private static HashMap<String,String> employeesMap = new HashMap<String,String>();
 
     /**
      * Database specific constant declarations
@@ -160,15 +160,19 @@ public class EmployeeContentProvider extends ContentProvider {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         qb.setTables(tableName);
 
+        employeesMap.clear();
+        employeesMap.put("emId", employeeId);
+        employeesMap.put("emName", employeeName);
+        employeesMap.put("emPhone", employeePhone);
+        qb.setProjectionMap(employeesMap);
+        // qb.setStrict(true);
+
         switch (uriMatcher.match(uri)) {
             case EMPLOYEES:
-                qb.setProjectionMap(employeesMap);
                 break;
-
             case EMPLOYEE_ID:
                 qb.appendWhere( employeeId + "=" + uri.getPathSegments().get(1));
                 break;
-
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
@@ -181,7 +185,7 @@ public class EmployeeContentProvider extends ContentProvider {
         }
 
         Cursor c = qb.query(employeeDb,	projection,	selection, selectionArgs,null, null, sortOrder);
-
+        
         /**
          * register to watch a content URI for changes
          */

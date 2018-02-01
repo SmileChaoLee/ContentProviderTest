@@ -74,14 +74,25 @@ public class MainActivity extends AppCompatActivity {
 
         String selection = null;
         String[] selectionArgs = null;
-        Cursor c = getContentResolver().query(EmployeeContentProvider.contentURI, null, selection, selectionArgs, "name");
+        String[] projection = {"emId", "emName", "emPhone"};
+        Cursor c = getContentResolver().query(EmployeeContentProvider.contentURI, projection, selection, selectionArgs, "name");
         if (c.moveToFirst()) {
             do{
+                /*
                 Toast.makeText(this,
                         c.getString(c.getColumnIndex(EmployeeContentProvider.employeeId)) +
                                 ", " +  c.getString(c.getColumnIndex( EmployeeContentProvider.employeeName)) +
                                 ", " + c.getString(c.getColumnIndex( EmployeeContentProvider.employeePhone)),
                         Toast.LENGTH_SHORT).show();
+                        */
+
+
+                Toast.makeText(this,
+                        c.getString(0) +
+                                ", " +  c.getString(1) +
+                                ", " + c.getString(2),
+                        Toast.LENGTH_SHORT).show();
+
             } while (c.moveToNext());
         }
 
