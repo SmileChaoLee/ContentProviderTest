@@ -81,11 +81,11 @@
         android:onClick="onClickAddName"/>
 
     <Button
-        android:id="@+id/buttonRetrive"
+        android:id="@+id/buttonRetrieve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Retrive employee"
+        android:text="Retrieve employee"
         android:layout_below="@+id/buttonAdd"
         android:layout_alignRight="@+id/buttonAdd"
         android:layout_alignEnd="@+id/buttonAdd"

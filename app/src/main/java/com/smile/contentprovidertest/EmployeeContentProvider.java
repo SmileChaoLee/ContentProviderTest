@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 public class EmployeeContentProvider extends ContentProvider {
 
-    public static final String providerName = new String("com.smile.provider.SmileCompany");
+    public static final String providerName = new String("com.smile.contentprovidertest.provider01");
     public static final String providerURL = new String("content://"+providerName+"/employees");
     public static final Uri contentURI = Uri.parse(providerURL);
 
