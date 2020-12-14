@@ -17,8 +17,8 @@ import java.util.HashMap;
 
 public class EmployeeContentProvider extends ContentProvider {
 
-    public static final String providerName = new String("com.smile.contentprovidertest.provider01");
-    public static final String providerURL = new String("content://"+providerName+"/employees");
+    public static final String authorities = new String("com.smile.contentprovidertest.provider01");
+    public static final String providerURL = new String("content://"+authorities+"/employees");
     public static final Uri contentURI = Uri.parse(providerURL);
 
     public static final String employeeId = new String("_id");
@@ -31,8 +31,8 @@ public class EmployeeContentProvider extends ContentProvider {
     private final static UriMatcher uriMatcher;
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(providerName,"employees",EMPLOYEES);
-        uriMatcher.addURI(providerName,"employees/#",EMPLOYEE_ID);
+        uriMatcher.addURI(authorities,"employees",EMPLOYEES);
+        uriMatcher.addURI(authorities,"employees/#",EMPLOYEE_ID);
     }
 
     private static HashMap<String,String> employeesMap = new HashMap<String,String>();
@@ -145,7 +145,7 @@ public class EmployeeContentProvider extends ContentProvider {
          */
         if (rowId > 0) {
             // successfully
-            Uri _uri = ContentUris.withAppendedId(contentURI, rowId);
+            Uri _uri = ContentUris.withAppendedId(uri, rowId);
             // getContext().getContentResolver().notifyChange(_uri, null);
             return _uri;
         } else {
