@@ -12,27 +12,21 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-
 import java.util.HashMap;
 
 public class EmployeeContentProvider extends ContentProvider {
 
-    public static final String authorities = new String("com.smile.contentprovidertest.provider01");
-    public static final String providerURL = new String("content://"+authorities+"/employees");
-    public static final Uri contentURI = Uri.parse(providerURL);
-
-    public static final String employeeId = new String("_id");
-    public static final String employeeName = new String("name");
-    public static final String employeePhone = new String("phone");
-
+    public static final String employeeId = "_id";
+    public static final String employeeName = "name";
+    public static final String employeePhone = "phone";
     private final static int EMPLOYEES = 1;
     private final static int EMPLOYEE_ID = 2;
-
     private final static UriMatcher uriMatcher;
+
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(authorities,"employees",EMPLOYEES);
-        uriMatcher.addURI(authorities,"employees/#",EMPLOYEE_ID);
+        uriMatcher.addURI(Constant.authorities,"employees",EMPLOYEES);
+        uriMatcher.addURI(Constant.authorities,"employees/#",EMPLOYEE_ID);
     }
 
     private static HashMap<String,String> employeesMap = new HashMap<String,String>();

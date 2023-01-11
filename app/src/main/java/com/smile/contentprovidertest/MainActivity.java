@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         values.put(EmployeeContentProvider.employeePhone,
                 ((EditText)findViewById(R.id.editText2)).getText().toString());
 
-        Uri uri = getContentResolver().insert(EmployeeContentProvider.contentURI, values);
+        Uri uri = getContentResolver().insert(Constant.contentURI, values);
 
         Toast.makeText(getBaseContext(),
                 uri.toString(), Toast.LENGTH_LONG).show();
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         String selection = null;
         String[] selectionArgs = null;
         String[] projection = {"emId", "emName", "emPhone"};
-        Cursor c = getContentResolver().query(EmployeeContentProvider.contentURI, projection, selection, selectionArgs, "name");
+        Cursor c = getContentResolver().query(Constant.contentURI, projection, selection, selectionArgs, "name");
         if (c.moveToFirst()) {
             do{
                 /*
@@ -84,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
                                 ", " + c.getString(c.getColumnIndex( EmployeeContentProvider.employeePhone)),
                         Toast.LENGTH_SHORT).show();
                         */
-
 
                 Toast.makeText(this,
                         c.getString(0) +
